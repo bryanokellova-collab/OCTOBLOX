@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <style>body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#18191a;color:#fff;} .navbar{background:#23272a;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;} .navbar .logo{font-size:2rem;font-weight:700;color:#00c3ff;letter-spacing:2px;} .navbar nav a{color:#fff;text-decoration:none;margin-left:2rem;font-weight:500;transition:color 0.2s;} .navbar nav a:hover{color:#00c3ff;} .admin-section{max-width:800px;margin:4rem auto;background:#23272a;padding:2rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.2);} .admin-section h1{color:#00c3ff;font-size:2rem;margin-bottom:1rem;text-align:center;} .admin-actions{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;} .admin-card{background:#18191a;border-radius:8px;padding:1.5rem;width:240px;box-shadow:0 2px 8px rgba(0,0,0,0.2);text-align:center;} .admin-card h2{color:#00c3ff;margin-bottom:0.5rem;} .admin-card form{margin-top:1rem;} .admin-card label{color:#ccc;display:block;margin-bottom:0.5rem;} .admin-card input{width:90%;padding:0.5rem;margin-bottom:0.7rem;border-radius:5px;border:none;background:#23272a;color:#fff;} .admin-card button{background:#00c3ff;color:#18191a;font-weight:700;border:none;border-radius:5px;padding:0.7rem 1.5rem;cursor:pointer;transition:background 0.2s;} .admin-card button:hover{background:#0099cc;} .footer{background:#23272a;text-align:center;padding:1rem;color:#aaa;font-size:0.9rem;} </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="avatar.html">Avatar Shop</a>
+            <a href="octobux.html">Get Octobux</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="moderator.html">Moderator Panel</a>
+            <a href="messages.html">Messages</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="admin-section">
+        <h1>Administrator Panel</h1>
+        <div class="admin-actions">
+            <div class="admin-card">
+                <h2>Ban User</h2>
+                <form id="banForm">
+                    <label for="ban-username">Username</label>
+                    <input type="text" id="ban-username" name="ban-username" required>
+                    <label for="ban-reason">Reason</label>
+                    <input type="text" id="ban-reason" name="ban-reason" required>
+                    <label for="ban-expiry">Ban Expiry (YYYY-MM-DD or leave blank)</label>
+                    <input type="date" id="ban-expiry" name="ban-expiry">
+                    <button type="submit">Ban</button>
+                </form>
+            </div>
+            <div class="admin-card">
+                <h2>Unban User</h2>
+                <form id="unbanForm">
+                    <label for="unban-username">Username</label>
+                    <input type="text" id="unban-username" name="unban-username" required>
+                    <button type="submit">Unban</button>
+                </form>
+                <script>
+                document.getElementById('banForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    fetch('http://localhost:3000/api/ban', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: document.getElementById('ban-username').value,
+                            reason: document.getElementById('ban-reason').value,
+                            expiry: document.getElementById('ban-expiry').value || null
+                        })
+                    }).then(r => r.json()).then(data => {
+                        if(data.success) alert('User banned!');
+                        else alert('Error: ' + (data.error || 'Unknown error'));
+                    });
+                });
+                document.getElementById('unbanForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    fetch('http://localhost:3000/api/unban', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: document.getElementById('unban-username').value
+                        })
+                    }).then(r => r.json()).then(data => {
+                        if(data.success) alert('User unbanned!');
+                        else alert('Error: ' + (data.error || 'Unknown error'));
+                    });
+                });
+                </script>
+                </form>
+            </div>
+            <div class="admin-card">
+                <h2>Add New Item</h2>
+                <form>
+                    <label for="item-name">Item Name</label>
+                    <input type="text" id="item-name" name="item-name" required>
+                    <label for="item-price">Price (Octobux)</label>
+                    <input type="number" id="item-price" name="item-price" required>
+                    <button type="submit">Add Item</button>
+                </form>
+            </div>
+            <div class="admin-card">
+                <h2>Message Player</h2>
+                <form>
+                    <label for="msg-username">Username</label>
+                    <input type="text" id="msg-username" name="msg-username" required>
+                    <label for="msg-content">Message</label>
+                    <input type="text" id="msg-content" name="msg-content" required>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Admin access only. Not affiliated with Roblox Corporation.</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Octoblox - Home</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Roboto', Arial, sans-serif;
+			background: #202225;
+			color: #fff;
+		}
+		.navbar {
+			background: #393b3d;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+			padding: 0.5rem 2rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.navbar .logo {
+			font-size: 2.2rem;
+			font-weight: 900;
+			color: #00c3ff;
+			letter-spacing: 2px;
+			text-shadow: 1px 1px 0 #fff, 2px 2px 0 #00c3ff;
+			display: flex;
+			align-items: center;
+		}
+		.navbar .logo i {
+			margin-right: 0.5rem;
+		}
+		.navbar nav a {
+			color: #fff;
+			text-decoration: none;
+			margin-left: 2rem;
+			font-weight: 500;
+			font-size: 1.1rem;
+			transition: color 0.2s, background 0.2s;
+			padding: 0.5rem 1rem;
+			border-radius: 6px;
+		}
+		.navbar nav a:hover {
+			color: #00c3ff;
+			background: #23272a;
+		}
+		.hero {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 3rem;
+			padding: 5rem 2rem 3rem 2rem;
+		}
+		.hero-img {
+			width: 320px;
+			height: 320px;
+			background: linear-gradient(135deg, #00c3ff 60%, #23272a 100%);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+		}
+		.hero-img i {
+			font-size: 8rem;
+			color: #fff;
+		}
+		.hero-content {
+			max-width: 500px;
+		}
+		.hero-content h1 {
+			font-size: 3.2rem;
+			margin-bottom: 1rem;
+			color: #00c3ff;
+			font-weight: 900;
+			text-shadow: 1px 1px 0 #fff, 2px 2px 0 #00c3ff;
+		}
+		.hero-content p {
+			font-size: 1.3rem;
+			margin-bottom: 2rem;
+			color: #e0e0e0;
+		}
+		.hero-content .cta {
+			display: inline-block;
+			padding: 1rem 2.5rem;
+			background: linear-gradient(90deg, #00c3ff 60%, #0099cc 100%);
+			color: #18191a;
+			font-weight: 700;
+			border-radius: 8px;
+			text-decoration: none;
+			font-size: 1.2rem;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+			transition: background 0.2s;
+		}
+		.hero-content .cta:hover {
+			background: linear-gradient(90deg, #0099cc 60%, #00c3ff 100%);
+		}
+		.features {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 2rem;
+			margin: 3rem 0;
+		}
+		.feature {
+			background: #23272a;
+			border-radius: 12px;
+			padding: 2rem;
+			width: 320px;
+			box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+			text-align: center;
+			transition: transform 0.2s;
+		}
+		.feature:hover {
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 0 6px 24px rgba(0,195,255,0.15);
+		}
+		.feature h2 {
+			color: #00c3ff;
+			margin-bottom: 1rem;
+			font-size: 1.5rem;
+		}
+		.feature p {
+			color: #ccc;
+			font-size: 1.1rem;
+		}
+		.footer {
+			background: #23272a;
+			text-align: center;
+			padding: 1rem;
+			color: #aaa;
+			font-size: 0.9rem;
+			margin-top: 3rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<div class="logo"><i class="fa-solid fa-cube"></i> Octoblox</div>
+		<nav>
+			<a href="index.html">Home</a>
+			<a href="games.html">Games</a>
+			<a href="avatar.html">Avatar Shop</a>
+			<a href="octobux.html">Get Octobux</a>
+			<a href="jobs.html">Jobs</a>
+			<a href="admin.html">Admin Panel</a>
+			<a href="moderator.html">Moderator</a>
+			<a href="messages.html">Messages</a>
+			<a href="login.html">Login</a>
+		</nav>
+	</div>
+	<div class="hero">
+		<div class="hero-img">
+			<i class="fa-solid fa-user-astronaut"></i>
+		</div>
+		<div class="hero-content">
+			<h1>Welcome to Octoblox</h1>
+			<p>The ultimate platform to play, create, and share games with friends. Customize your avatar, earn Octobux, and explore endless worlds!</p>
+			<a class="cta" href="login.html">Join Octoblox Now</a>
+		</div>
+	</div>
+	<div class="features">
+		<div class="feature">
+			<h2><i class="fa-solid fa-gamepad"></i> Play Games</h2>
+			<p>Discover thousands of user-created games and adventures. There's always something new to explore on Octoblox!</p>
+		</div>
+		<div class="feature">
+			<h2><i class="fa-solid fa-user"></i> Customize Your Avatar</h2>
+			<p>Express yourself with unique outfits, accessories, and more in the Avatar Shop.</p>
+		</div>
+		<div class="feature">
+			<h2><i class="fa-solid fa-coins"></i> Earn & Spend Octobux</h2>
+			<p>Collect Octobux by playing games and use them to buy cool items and upgrades.</p>
+		</div>
+	</div>
+	<div class="footer">
+		&copy; 2025 Octoblox. Not affiliated with Roblox Corporation.
+	</div>
+</body>
+</html>

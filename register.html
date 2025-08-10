@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Register</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {margin:0;font-family:'Roboto',Arial,sans-serif;background:#18191a;color:#fff;}
+        .navbar{background:#23272a;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+        .navbar .logo{font-size:2rem;font-weight:700;color:#00c3ff;letter-spacing:2px;}
+        .navbar nav a{color:#fff;text-decoration:none;margin-left:2rem;font-weight:500;transition:color 0.2s;}
+        .navbar nav a:hover{color:#00c3ff;}
+        .register-section{max-width:400px;margin:4rem auto;background:#23272a;padding:2rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+        .register-section h1{color:#00c3ff;font-size:2rem;margin-bottom:1rem;text-align:center;}
+        .register-section label{display:block;margin-bottom:0.5rem;color:#ccc;}
+        .register-section input{width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:5px;border:none;background:#18191a;color:#fff;}
+        .register-section button{width:100%;padding:0.8rem;background:#00c3ff;color:#18191a;font-weight:700;border:none;border-radius:5px;font-size:1rem;cursor:pointer;transition:background 0.2s;}
+        .register-section button:hover{background:#0099cc;}
+        .footer{background:#23272a;text-align:center;padding:1rem;color:#aaa;font-size:0.9rem;}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="avatar.html">Avatar Shop</a>
+            <a href="octobux.html">Get Octobux</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="moderator.html">Moderator Panel</a>
+            <a href="messages.html">Messages</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="register-section">
+        <div style="background:#23272a; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.18); padding:2rem; margin-top:1rem;">
+            <h1 style="color:#00c3ff; font-size:1.7rem; margin-bottom:1.2rem; text-align:center;">Create Account</h1>
+            <form id="registerForm">
+                <label for="username" style="font-weight:500; color:#ccc; margin-bottom:0.3rem;">Username</label>
+                <input type="text" id="username" name="username" required style="width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                <label for="password" style="font-weight:500; color:#ccc; margin-bottom:0.3rem;">Password</label>
+                <input type="password" id="password" name="password" required style="width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                <label for="birthday" style="font-weight:500; color:#ccc; margin-bottom:0.3rem;">Birthday</label>
+                <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+                    <input type="number" id="reg-day" name="reg-day" min="1" max="31" placeholder="Day" required style="width:70px;padding:0.7rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                    <input type="number" id="reg-month" name="reg-month" min="1" max="12" placeholder="Month" required style="width:70px;padding:0.7rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                    <input type="number" id="reg-year" name="reg-year" min="1900" max="2025" placeholder="Year" required style="width:90px;padding:0.7rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                </div>
+                <button type="submit" style="width:100%;padding:0.8rem;background:linear-gradient(90deg,#00c3ff 60%,#0099cc 100%);color:#18191a;font-weight:700;border:none;border-radius:5px;font-size:1.1rem;cursor:pointer;transition:background 0.2s;">Register</button>
+            </form>
+        </div>
+        <div id="registerStatus" style="display:none;background:#ddf;padding:1rem;margin-top:1rem;border-radius:6px;color:#222;"></div>
+        <div style="text-align:center;margin-top:2rem;color:#ccc;">
+            Already have an account? <a href="login.html" style="color:#00c3ff;text-decoration:underline;">Login</a>
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Not affiliated with Roblox Corporation.</div>
+    <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch('http://localhost:3000/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                birthday: {
+                    day: document.getElementById('reg-day').value,
+                    month: document.getElementById('reg-month').value,
+                    year: document.getElementById('reg-year').value
+                }
+            })
+        }).then(r => r.json()).then(data => {
+            if(data.success) {
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('registerStatus').style.display = 'block';
+                document.getElementById('registerStatus').innerText = data.error || 'Error creating account.';
+            }
+        });
+    });
+    </script>
+</body>
+</html>

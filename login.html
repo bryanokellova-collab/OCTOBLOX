@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <style>body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#18191a;color:#fff;} .navbar{background:#23272a;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;} .navbar .logo{font-size:2rem;font-weight:700;color:#00c3ff;letter-spacing:2px;} .navbar nav a{color:#fff;text-decoration:none;margin-left:2rem;font-weight:500;transition:color 0.2s;} .navbar nav a:hover{color:#00c3ff;} .login-section{max-width:400px;margin:4rem auto;background:#23272a;padding:2rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.2);} .login-section h1{color:#00c3ff;font-size:2rem;margin-bottom:1rem;text-align:center;} .login-section label{display:block;margin-bottom:0.5rem;color:#ccc;} .login-section input{width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:5px;border:none;background:#18191a;color:#fff;} .login-section button{width:100%;padding:0.8rem;background:#00c3ff;color:#18191a;font-weight:700;border:none;border-radius:5px;font-size:1rem;cursor:pointer;transition:background 0.2s;} .login-section button:hover{background:#0099cc;} .footer{background:#23272a;text-align:center;padding:1rem;color:#aaa;font-size:0.9rem;} </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="avatar.html">Avatar Shop</a>
+            <a href="octobux.html">Get Octobux</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="moderator.html">Moderator Panel</a>
+            <a href="messages.html">Messages</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="login-section">
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+            <div style="flex: 1; min-width: 250px;">
+                <h1 style="text-align:center;color:#00c3ff;margin-bottom:2rem;">Login to Octoblox</h1>
+                <form style="max-width:350px;margin:0 auto;">
+                    <form id="loginForm" style="max-width:350px;margin:0 auto;">
+                        <label for="username" style="font-weight:500;color:#ccc;margin-bottom:0.3rem;">Username</label>
+                        <input type="text" id="username" name="username" required style="width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                        <label for="password" style="font-weight:500;color:#ccc;margin-bottom:0.3rem;">Password</label>
+                        <input type="password" id="password" name="password" required style="width:100%;padding:0.7rem;margin-bottom:1.5rem;border-radius:5px;border:none;background:#18191a;color:#fff;">
+                        <button type="submit" style="width:100%;padding:0.8rem;background:linear-gradient(90deg,#00c3ff 60%,#0099cc 100%);color:#18191a;font-weight:700;border:none;border-radius:5px;font-size:1.1rem;cursor:pointer;transition:background 0.2s;">Login</button>
+                    </form>
+                </form>
+                <div id="banMessage" style="display:none;background:#ffdddd;color:#a00;padding:1rem;margin-top:1rem;border-radius:6px;max-width:350px;margin-left:auto;margin-right:auto;"></div>
+                <div style="text-align:center;margin-top:2rem;color:#ccc;">
+                    Don't have an account? <a href="register.html" style="color:#00c3ff;text-decoration:underline;">Create</a>
+                </div>
+            </div>
+        </div>
+        <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                })
+            }).then(r => r.json()).then(data => {
+                if(data.success && !data.banned) {
+                    window.location.href = 'index.html';
+                } else if(data.banned) {
+                    document.getElementById('banMessage').style.display = 'block';
+                    document.getElementById('banMessage').innerHTML = `Your account is banned.<br>Reason: ${data.banReason}<br>Ban expires: ${data.banExpiry ? data.banExpiry : 'Never'}`;
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            });
+        });
+    </script>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Not affiliated with Roblox Corporation.</div>
+</body>
+</html>

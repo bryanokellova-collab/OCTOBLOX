@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Moderator Panel</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin:0; font-family:'Roboto',Arial,sans-serif; background:#202225; color:#fff; }
+        .navbar { background:#393b3d; box-shadow:0 2px 8px rgba(0,0,0,0.15); padding:0.5rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+        .navbar .logo { font-size:2.2rem; font-weight:900; color:#00c3ff; letter-spacing:2px; text-shadow:1px 1px 0 #fff,2px 2px 0 #00c3ff; display:flex; align-items:center; }
+        .navbar .logo i { margin-right:0.5rem; }
+        .navbar nav a { color:#fff; text-decoration:none; margin-left:2rem; font-weight:500; font-size:1.1rem; transition:color 0.2s,background 0.2s; padding:0.5rem 1rem; border-radius:6px; }
+        .navbar nav a:hover { color:#00c3ff; background:#23272a; }
+        .panel-section { max-width:800px; margin:4rem auto; background:#23272a; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.18); }
+        .panel-section h1 { color:#00c3ff; font-size:2rem; margin-bottom:1rem; text-align:center; }
+        .application-list { margin-top:2rem; }
+        .application-card { background:#18191a; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+        .application-card h2 { color:#00c3ff; margin-bottom:0.5rem; }
+        .application-card p { color:#ccc; margin:0.3rem 0; }
+        .application-card .actions { margin-top:1rem; }
+        .application-card button { background:#00c3ff; color:#18191a; font-weight:700; border:none; border-radius:5px; padding:0.7rem 1.5rem; cursor:pointer; transition:background 0.2s; margin-right:1rem; }
+        .application-card button:hover { background:#0099cc; }
+        .application-card .declined { background:#a00; color:#fff; }
+        .application-card .accepted { background:#0a0; color:#fff; }
+        .footer { background:#23272a; text-align:center; padding:1rem; color:#aaa; font-size:0.9rem; margin-top:3rem; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo"><i class="fa-solid fa-cube"></i> Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="avatar.html">Avatar Shop</a>
+            <a href="octobux.html">Get Octobux</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="moderator.html">Moderator Panel</a>
+            <a href="messages.html">Messages</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="panel-section">
+        <h1>Job Applications</h1>
+        <div class="application-list" id="applicationList">
+            <!-- Applications will be loaded here -->
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Moderator access only. Not affiliated with Roblox Corporation.</div>
+    <script>
+    function loadApplications() {
+        fetch('http://localhost:3000/api/applications')
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('applicationList');
+                list.innerHTML = '';
+                if (!data.applications.length) {
+                    list.innerHTML = '<p>No applications found.</p>';
+                    return;
+                }
+                data.applications.forEach(app => {
+                    let statusColor = app.status === 'accepted' ? 'accepted' : (app.status === 'declined' ? 'declined' : '');
+                    let html = `<div class="application-card">
+                        <h2>${app.username}</h2>
+                        <p><strong>Email:</strong> ${app.email}</p>
+                        <p><strong>Phone:</strong> ${app.phone}</p>
+                        <p><strong>Why:</strong> ${app.why}</p>
+                        <p><strong>Location:</strong> ${app.location}</p>
+                        <p><strong>Skills:</strong> ${app.skills}</p>
+                        <p><strong>Status:</strong> <span class="${statusColor}">${app.status}</span></p>
+                        <div class="actions">
+                            ${app.status === 'pending' ? `<button onclick="acceptApp('${app.username}')">Accept</button><button onclick="declineApp('${app.username}')">Decline</button>` : ''}
+                        </div>
+                    </div>`;
+                    list.innerHTML += html;
+                });
+            });
+    }
+    function acceptApp(username) {
+        fetch('http://localhost:3000/api/application/accept', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        }).then(r => r.json()).then(data => {
+            if(data.success) loadApplications();
+            else alert('Error: ' + (data.error || 'Unknown error'));
+        });
+    }
+    function declineApp(username) {
+        fetch('http://localhost:3000/api/application/decline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        }).then(r => r.json()).then(data => {
+            if(data.success) loadApplications();
+            else alert('Error: ' + (data.error || 'Unknown error'));
+        });
+    }
+    loadApplications();
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Profile</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {margin:0;font-family:'Roboto',Arial,sans-serif;background:#18191a;color:#fff;}
+        .navbar{background:#23272a;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+        .navbar .logo{font-size:2rem;font-weight:700;color:#00c3ff;letter-spacing:2px;}
+        .navbar nav a{color:#fff;text-decoration:none;margin-left:2rem;font-weight:500;transition:color 0.2s;}
+        .navbar nav a:hover{color:#00c3ff;}
+        .profile-section{max-width:600px;margin:4rem auto;background:#23272a;padding:2rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+        .profile-header{display:flex;align-items:center;gap:2rem;}
+        .avatar-img{width:120px;height:120px;border-radius:50%;background:#18191a;display:flex;align-items:center;justify-content:center;font-size:4rem;color:#00c3ff;}
+        .profile-info{flex:1;}
+        .profile-info h2{margin:0 0 0.5rem 0;color:#00c3ff;}
+        .profile-info p{margin:0.2rem 0;color:#ccc;}
+        .profile-actions{margin-top:2rem;display:flex;gap:1rem;}
+        .profile-actions button{padding:0.7rem 1.5rem;background:#00c3ff;color:#18191a;font-weight:700;border:none;border-radius:5px;font-size:1rem;cursor:pointer;transition:background 0.2s;}
+        .profile-actions button:hover{background:#0099cc;}
+        .footer{background:#23272a;text-align:center;padding:1rem;color:#aaa;font-size:0.9rem;margin-top:3rem;}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="messages.html">Messages</a>
+            <a href="avatar.html">Avatar</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="trade.html">Trade</a>
+            <a href="communities.html">Communities</a>
+            <a href="blog.html">Blog</a>
+            <a href="store.html">Official Store</a>
+            <a href="giftcards.html">Gift Cards</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="profile-section">
+        <div class="profile-header">
+            <div class="avatar-img"><span>👤</span></div>
+            <div class="profile-info">
+                <h2 id="profile-username">Username</h2>
+                <p id="profile-joined">Joined: 2025</p>
+                <p id="profile-bio">Bio: Welcome to Octoblox!</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <button>Edit Profile</button>
+            <button>View Inventory</button>
+            <button>Trade</button>
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Not affiliated with Roblox Corporation.</div>
+</body>
+</body>
+<script>
+// Fetch and display user profile from backend
+fetch('/api/profile', {
+    credentials: 'include'
+}).then(r => r.json()).then(data => {
+    if(data.error) {
+        document.getElementById('profile-username').innerText = 'Not logged in';
+        document.getElementById('profile-joined').innerText = '';
+        document.getElementById('profile-bio').innerText = '';
+    } else {
+        document.getElementById('profile-username').innerText = data.username;
+        document.getElementById('profile-joined').innerText = 'Joined: ' + (data.joined || '2025');
+        document.getElementById('profile-bio').innerText = 'Bio: ' + (data.bio || 'Welcome to Octoblox!');
+    }
+});
+</script>
+</html>

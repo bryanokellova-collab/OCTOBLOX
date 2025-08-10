@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoblox - Job Application</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin:0; font-family:'Roboto',Arial,sans-serif; background:#202225; color:#fff; }
+        .navbar { background:#393b3d; box-shadow:0 2px 8px rgba(0,0,0,0.15); padding:0.5rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+        .navbar .logo { font-size:2.2rem; font-weight:900; color:#00c3ff; letter-spacing:2px; text-shadow:1px 1px 0 #fff,2px 2px 0 #00c3ff; display:flex; align-items:center; }
+        .navbar .logo i { margin-right:0.5rem; }
+        .navbar nav a { color:#fff; text-decoration:none; margin-left:2rem; font-weight:500; font-size:1.1rem; transition:color 0.2s,background 0.2s; padding:0.5rem 1rem; border-radius:6px; }
+        .navbar nav a:hover { color:#00c3ff; background:#23272a; }
+        .application-section { max-width:500px; margin:4rem auto; background:#23272a; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.18); }
+        .application-section h1 { color:#00c3ff; font-size:2rem; margin-bottom:1rem; text-align:center; }
+        .application-section label { color:#ccc; display:block; margin-bottom:0.5rem; font-weight:500; }
+        .application-section input, .application-section textarea, .application-section select { width:100%; padding:0.7rem; margin-bottom:1rem; border-radius:5px; border:none; background:#18191a; color:#fff; font-size:1rem; }
+        .application-section button { width:100%; padding:0.8rem; background:#00c3ff; color:#18191a; font-weight:700; border:none; border-radius:5px; font-size:1.1rem; cursor:pointer; transition:background 0.2s; }
+        .application-section button:hover { background:#0099cc; }
+        .footer { background:#23272a; text-align:center; padding:1rem; color:#aaa; font-size:0.9rem; margin-top:3rem; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo"><i class="fa-solid fa-cube"></i> Octoblox</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="avatar.html">Avatar Shop</a>
+            <a href="octobux.html">Get Octobux</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="moderator.html">Moderator Panel</a>
+            <a href="messages.html">Messages</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </div>
+    <div class="application-section">
+        <h1>Job Application</h1>
+        <form id="jobAppForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="why">Why do you want to work at Octoblox?</label>
+            <textarea id="why" name="why" rows="3" required></textarea>
+            <label for="location">Are you allowed to work in:</label>
+            <select id="location" name="location" required>
+                <option value="">Select...</option>
+                <option value="US">United States</option>
+                <option value="Kenya">Kenya</option>
+            </select>
+            <label for="skills">Do you know Java, Python, and HTML?</label>
+            <select id="skills" name="skills" required>
+                <option value="">Select...</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button type="submit">Submit Application</button>
+        </form>
+        <div id="appStatus" style="display:none;background:#ddf;padding:1rem;margin-top:1rem;border-radius:6px;color:#222;"></div>
+    </div>
+    <div class="footer">&copy; 2025 Octoblox. Not affiliated with Roblox Corporation.</div>
+    <script>
+    document.getElementById('jobAppForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch('http://localhost:3000/api/apply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                why: document.getElementById('why').value,
+                location: document.getElementById('location').value,
+                skills: document.getElementById('skills').value
+            })
+        }).then(r => r.json()).then(data => {
+            if(data.success) {
+                document.getElementById('appStatus').style.display = 'block';
+                document.getElementById('appStatus').innerText = 'Application submitted!';
+                setTimeout(function(){ window.location.href = 'jobs.html'; }, 1500);
+            } else {
+                document.getElementById('appStatus').style.display = 'block';
+                document.getElementById('appStatus').innerText = 'Error submitting application.';
+            }
+        });
+    });
+    </script>
+</body>
+</html>
